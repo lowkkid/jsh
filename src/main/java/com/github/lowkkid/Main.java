@@ -1,29 +1,30 @@
 package com.github.lowkkid;
 
-import com.github.lowkkid.command.Command;
-import com.github.lowkkid.command.Echo;
-import com.github.lowkkid.command.Exit;
-import com.github.lowkkid.command.Type;
+import com.github.lowkkid.command.*;
 import com.github.lowkkid.exception.CommandNotFoundException;
 import com.github.lowkkid.utils.RunUtils;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 
 public class Main {
 
     private static final Scanner SCANNER = new Scanner(System.in);
-    public static final String PATH = System.getenv("PATH");
-    private static final Set<String> BUILT_IN_COMMANDS = Set.of("echo", "exit", "type");
     private static final Map<String, Command> BUILT_IN_COMMANDS_MAP = Map.of(
             "echo", new Echo(),
             "exit", new Exit(),
-            "type", new Type()
+            "type", new Type(),
+            "pwd", new Pwd(),
+            "cd", new Cd()
+
     );
 
-    public static void main(String[] args) throws Exception {
+    public static Path currentDir = Paths.get("").toAbsolutePath();
+
+    static void main()  {
 
         while (true) {
             System.out.print("$ ");
