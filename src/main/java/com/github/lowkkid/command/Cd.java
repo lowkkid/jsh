@@ -10,8 +10,8 @@ import java.util.*;
 public class Cd implements Command {
 
     @Override
-    public void execute(String[] args) {
-        String dirArg = args[0];
+    public void execute(List<String> args) {
+        String dirArg = args.getFirst();
         if (dirArg.startsWith("/")) {
             updateCurrentDirectory(dirArg);
             return;

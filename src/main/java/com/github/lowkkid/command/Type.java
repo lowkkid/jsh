@@ -4,12 +4,13 @@ import com.github.lowkkid.utils.FileUtils;
 import com.github.lowkkid.Main;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class Type implements Command {
 
     @Override
-    public void execute(String[] args) {
-        Arrays.stream(args).forEach((arg) -> {
+    public void execute(List<String> args) {
+        args.forEach((arg) -> {
             if (Main.isBultInCommand(arg)) {
                 System.out.println(arg + " is a shell builtin");
             } else {

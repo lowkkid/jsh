@@ -1,9 +1,11 @@
 package com.github.lowkkid.command;
 
+import java.util.List;
+
 public class Exit implements Command {
 
     @Override
-    public void execute(String[] args) {
+    public void execute(List<String> args) {
 
     }
 

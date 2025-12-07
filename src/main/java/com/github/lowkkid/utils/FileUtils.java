@@ -1,7 +1,5 @@
 package com.github.lowkkid.utils;
 
-import com.github.lowkkid.Main;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;

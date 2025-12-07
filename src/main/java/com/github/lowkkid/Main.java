@@ -2,17 +2,18 @@ package com.github.lowkkid;
 
 import com.github.lowkkid.command.*;
 import com.github.lowkkid.exception.CommandNotFoundException;
+import com.github.lowkkid.parser.InputParser;
 import com.github.lowkkid.utils.RunUtils;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
     private static final Scanner SCANNER = new Scanner(System.in);
+    private static final InputParser PARSER = InputParser.getInstance();
+
     private static final Map<String, Command> BUILT_IN_COMMANDS_MAP = Map.of(
             "echo", new Echo(),
             "exit", new Exit(),
@@ -29,10 +30,10 @@ public class Main {
         while (true) {
             System.out.print("$ ");
 
-            var userInput = SCANNER.nextLine();
-            var commandAndArgs = getCommandAndArgs(userInput);
-            var command = commandAndArgs.command;
-            var arguments = commandAndArgs.arguments;
+            var userInput = SCANNER.nextLine().trim();
+            var commandAndArgs = PARSER.getCommandAndArgs(userInput);
+            var command = commandAndArgs.command();
+            var arguments = commandAndArgs.arguments();
 
             var executableCommand = BUILT_IN_COMMANDS_MAP.get(command);
 
@@ -56,13 +57,4 @@ public class Main {
     public static boolean isBultInCommand(String command) {
         return BUILT_IN_COMMANDS_MAP.containsKey(command);
     }
-
-    private static CommandAndArgs getCommandAndArgs(String userInput) {
-        String[] commandAndArgs = userInput.split(" ");
-        return new CommandAndArgs(commandAndArgs[0], Arrays.copyOfRange(commandAndArgs, 1, commandAndArgs.length));
-    }
-
-    private static record CommandAndArgs(String command, String[] arguments) {
-    }
-
 }

@@ -3,20 +3,21 @@ package com.github.lowkkid.utils;
 import com.github.lowkkid.exception.CommandNotFoundException;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Stream;
 
 public final class RunUtils {
 
     private RunUtils() {}
 
-    public static void runExternal(String command, String[] args) {
+    public static void runExternal(String command, List<String> args) {
         String cmdPath = FileUtils.existsInPathDirectories(command);
         if (cmdPath == null) {
             throw new CommandNotFoundException(command);
         }
-        var commandAndArgs = new String[args.length + 1];
-        commandAndArgs[0] = command;
-        System.arraycopy(args, 0, commandAndArgs, 1, args.length);
-        ProcessBuilder pb = new ProcessBuilder(commandAndArgs).inheritIO();
+        ProcessBuilder pb = new ProcessBuilder(
+                Stream.concat(Stream.of(command), args.stream()).toList())
+                .inheritIO();
         try {
             Process process = pb.start();
             process.waitFor();
