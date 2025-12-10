@@ -1,27 +1,17 @@
 package com.github.lowkkid;
 
-import com.github.lowkkid.command.*;
-import com.github.lowkkid.exception.CommandNotFoundException;
+import com.github.lowkkid.command.utils.CommandRegistry;
 import com.github.lowkkid.parser.InputParser;
-import com.github.lowkkid.utils.RunUtils;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.Scanner;
 
 public class Main {
 
     private static final Scanner SCANNER = new Scanner(System.in);
     private static final InputParser PARSER = InputParser.getInstance();
-
-    private static final Map<String, Command> BUILT_IN_COMMANDS_MAP = Map.of(
-            "echo", new Echo(),
-            "exit", new Exit(),
-            "type", new Type(),
-            "pwd", new Pwd(),
-            "cd", new Cd()
-
-    );
+    private static final CommandRegistry COMMANDS_REGISTRY = CommandRegistry.getInstance();
 
     public static Path currentDir = Paths.get("").toAbsolutePath();
 
@@ -32,29 +22,27 @@ public class Main {
 
             var userInput = SCANNER.nextLine().trim();
             var commandAndArgs = PARSER.getCommandAndArgs(userInput);
-            var command = commandAndArgs.command();
-            var arguments = commandAndArgs.arguments();
+            var command = commandAndArgs.getCommand();
+            var arguments = commandAndArgs.getArguments();
+            var shouldBeRedirected = commandAndArgs.shouldBeRedirected();
 
-            var executableCommand = BUILT_IN_COMMANDS_MAP.get(command);
+            var executableCommandOpt = COMMANDS_REGISTRY.getExecutableCommand(command);
 
-            if (executableCommand == null) {
-                try {
-                    RunUtils.runExternal(command, arguments);
-                } catch (CommandNotFoundException e) {
-                    System.out.println(e.getMessage());
+            if (executableCommandOpt.isEmpty()) {
+                System.out.println(command + ": not found");
+            } else {
+                var executableCommand = executableCommandOpt.get();
+                if (shouldBeRedirected) {
+                    executableCommand.executeWithRedirect(
+                            arguments, commandAndArgs.getRedirectOptions());
+                }  else {
+                    executableCommand.execute(arguments);
                 }
-                continue;
-            }
-
-            executableCommand.execute(arguments);
-
-            if (executableCommand.shouldBreak()) {
-                break;
+                if (executableCommand.shouldBreak()) {
+                    break;
+                }
             }
         }
     }
 
-    public static boolean isBultInCommand(String command) {
-        return BUILT_IN_COMMANDS_MAP.containsKey(command);
-    }
 }

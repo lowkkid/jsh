@@ -35,4 +35,11 @@ public final class FileUtils {
         }
         return sb.toString();
     }
+
+    public static void createParentDirsIfNotExists(Path pathForFile) {
+        Path parentDir = pathForFile.getParent();
+        if (parentDir != null && !parentDir.toFile().exists()) {
+            parentDir.toFile().mkdirs();
+        }
+    }
 }

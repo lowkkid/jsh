@@ -1,12 +1,15 @@
 package com.github.lowkkid.command;
 
+import com.github.lowkkid.command.utils.BuiltInCommand;
+
 import java.util.List;
 
-public class Echo implements Command {
+@BuiltInCommand(name = "echo")
+public class Echo extends Command {
 
     @Override
-    public void execute(List<String> args) {
-        args.forEach(arg -> System.out.print(arg + " "));
-        System.out.println();
+    public void executeWithException(List<String> args) {
+        args.forEach(arg -> stdOut.print(arg + " "));
+        stdOut.println();
     }
 }

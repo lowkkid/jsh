@@ -16,6 +16,9 @@ public class InputParser {
     private boolean isCommandQuoted = false;
 
     private String command = "";
+    private String redirectTo = null;
+    private RedirectOptions.RedirectType redirectType = RedirectOptions.RedirectType.REWRITE;
+    private RedirectOptions.RedirectStream redirectStream = RedirectOptions.RedirectStream.STDOUT;
     private final List<String> arguments = new ArrayList<>();
 
     public InputParser() {
@@ -28,7 +31,16 @@ public class InputParser {
     public CommandAndArgs getCommandAndArgs(String userInput) {
         reset();
         input = userInput.trim();
+        parseCommand();
+        parseArguments();
+        RedirectOptions redirectOptions = null;
+        if (redirectTo != null) {
+            redirectOptions = new RedirectOptions(redirectTo, redirectType, redirectStream);
+        }
+        return new CommandAndArgs(command, arguments, redirectOptions);
+    }
 
+    private void parseCommand() {
         char commandEndChar = ' ';
 
         if (input.charAt(0) == '\'') {
@@ -50,8 +62,9 @@ public class InputParser {
         command = sb.toString();
         index = isCommandQuoted ? index + 2 : index + 1;
         sb.setLength(0);
+    }
 
-
+    private void parseArguments() {
         while (index < input.length()) {
             char currentChar = input.charAt(index++);
 
@@ -62,6 +75,7 @@ public class InputParser {
             }
 
             switch (currentChar) {
+                case '>' -> handleRedirect();
                 case '\\' -> handleBackslash();
                 case '\'' -> handleSingleQuote();
                 case '"' -> handleDoubleQuote();
@@ -69,11 +83,39 @@ public class InputParser {
                 default -> sb.append(currentChar);
             }
         }
-        arguments.add(sb.toString());
-        return new CommandAndArgs(command, arguments);
+        if (!sb.isEmpty()) {
+            arguments.add(sb.toString());
+        }
     }
 
     private static final Set<Character> ESCAPED_CHARS_WITHIN_DOUBLE_QUOTES = Set.of('"', '\\', '$', '`');
+
+    private void handleRedirect() {
+        if (sb.length() == 1) {
+            char outputStream = sb.charAt(0);
+            if (outputStream == '1') {
+                sb.setLength(0);
+            }
+            if (outputStream == '2') {
+                redirectStream = RedirectOptions.RedirectStream.STDERR;
+                sb.setLength(0);
+            }
+        }
+        if ('>' == input.charAt(index)) {
+            redirectType = RedirectOptions.RedirectType.APPEND;
+            index++;
+        }
+        skipWhitespace();
+
+        var redirectBuilder = new StringBuilder();
+
+        while (index < input.length() && input.charAt(index) != ' ') {
+            redirectBuilder.append(input.charAt(index++));
+        }
+
+        index++;
+        redirectTo = redirectBuilder.toString();
+    }
 
     private void handleBackslash() {
         if (isWithinSingleQuotes) {
@@ -122,7 +164,16 @@ public class InputParser {
         return isWithinSingleQuotes || isWithinDoubleQuotes;
     }
 
+    private void skipWhitespace() {
+        while (input.charAt(index) == ' ') {
+            index++;
+        }
+    }
+
     private void reset() {
+        redirectTo = null;
+        redirectType = RedirectOptions.RedirectType.REWRITE;
+        redirectStream = RedirectOptions.RedirectStream.STDOUT;
         sb.setLength(0);
         index = 0;
         input = "";

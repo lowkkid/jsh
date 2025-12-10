@@ -1,11 +1,14 @@
 package com.github.lowkkid.command;
 
+import com.github.lowkkid.command.utils.BuiltInCommand;
+
 import java.util.List;
 
-public class Exit implements Command {
+@BuiltInCommand(name = "exit")
+public class Exit extends Command {
 
     @Override
-    public void execute(List<String> args) {
+    public void executeWithException(List<String> args) {
 
     }
 

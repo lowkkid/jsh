@@ -1,15 +1,16 @@
 package com.github.lowkkid.command;
 
 import com.github.lowkkid.Main;
+import com.github.lowkkid.command.utils.BuiltInCommand;
 
 import java.util.List;
 
-public class Pwd implements Command {
-
+@BuiltInCommand(name = "pwd")
+public class Pwd extends Command {
 
     @Override
-    public void execute(List<String> args) {
-        System.out.println(Main.currentDir.toString());
+    public void executeWithException(List<String> args) {
+        stdOut.println(Main.currentDir.toString());
 
     }
 }
