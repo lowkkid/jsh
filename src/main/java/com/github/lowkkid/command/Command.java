@@ -15,7 +15,7 @@ import static com.github.lowkkid.utils.FileUtils.createParentDirsIfNotExists;
 public abstract class Command {
 
     protected PrintStream stdOut = System.out;
-    protected PrintStream stdErr = System.out;
+    protected PrintStream stdErr = System.err;
 
     public void execute(List<String> args) {
         try {

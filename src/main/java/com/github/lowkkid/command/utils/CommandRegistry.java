@@ -5,7 +5,13 @@ import com.github.lowkkid.command.ExternalCommand;
 import com.github.lowkkid.utils.FileUtils;
 import org.reflections.Reflections;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CommandRegistry {
 
@@ -18,9 +24,6 @@ public class CommandRegistry {
     private final Map<String, Command> executableCommands;
     private final Set<String> builtInCommands;
 
-    {
-        System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "error");
-    }
 
     public Optional<Command> getExecutableCommand(String name) {
         return Optional.ofNullable(executableCommands.get(name))
@@ -47,14 +50,28 @@ public class CommandRegistry {
         return builtInCommands.contains(command);
     }
 
+    public Set<String> getAllCommands() {
+        Set<String> allCommands = new HashSet<>(builtInCommands);
+        String[] directoriesFromPathEnv = System.getenv("PATH").split(File.pathSeparator);
+
+        for (var directoryFromPathEnv : directoriesFromPathEnv) {
+            try (Stream<Path> contentOfDirectoryFromPathEnv = Files.list(Path.of(directoryFromPathEnv))) {
+                var found = contentOfDirectoryFromPathEnv
+                        .filter(Files::isExecutable)
+                        .map(path ->  path.getFileName().toString())
+                        .collect(Collectors.toSet());
+                allCommands.addAll(found);
+            } catch (IOException _) {
+            }
+        }
+        return allCommands;
+    }
 
     private CommandRegistry() {
         this.executableCommands = new HashMap<>();
         this.builtInCommands = new HashSet<>();
         registerBuiltInCommands();
     }
-
-
 
     private void registerBuiltInCommands() {
         Reflections reflections = new Reflections(COMMANDS_PACKAGE);
