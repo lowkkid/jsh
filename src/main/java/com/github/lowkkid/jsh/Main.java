@@ -75,6 +75,7 @@ public class Main {
                 // Ctrl+C
             }
         }
+        HistoryUtils.HISTORY.save();
         terminal.close();
 
     }

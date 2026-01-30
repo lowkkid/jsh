@@ -6,7 +6,8 @@ import java.nio.file.Paths;
 
 public final class EnvConfigReader {
 
-    private EnvConfigReader() {}
+    private EnvConfigReader() {
+    }
 
     public static String HOME;
     public static String USERNAME;
@@ -19,7 +20,6 @@ public final class EnvConfigReader {
     public static Boolean INCREMENTAL_APPEND_HISTORY;
 
 
-
     static {
         HOME = System.getProperty("user.home");
         USERNAME = System.getProperty("user.name");
@@ -30,17 +30,17 @@ public final class EnvConfigReader {
                 ? Paths.get(System.getenv("JSH_UI_CONFIG"))
                 : Paths.get(HOME + "/.jshui");
 
-        HISTORY_FILE = System.getenv("HISTFILE") != null
-                ? Paths.get(System.getenv("HISTFILE"))
+        HISTORY_FILE = System.getenv("JSH_HISTFILE") != null
+                ? Paths.get(System.getenv("JSH_HISTFILE"))
                 : Paths.get(HOME + "/.jsh_history");
-        IN_MEMORY_HISTORY_MAX_ENTRIES = System.getenv("HISTSIZE") != null
-                ? Integer.parseInt(System.getenv("HISTSIZE"))
+        IN_MEMORY_HISTORY_MAX_ENTRIES = System.getenv("JSH_HISTSIZE") != null
+                ? Integer.parseInt(System.getenv("JSH_HISTSIZE"))
                 : 1000;
-        FILE_HISTORY_MAX_ENTRIES = System.getenv("HISTFILESIZE") != null
-                ? Integer.parseInt(System.getenv("HISTFILESIZE"))
+        FILE_HISTORY_MAX_ENTRIES = System.getenv("JSH_HISTFILESIZE") != null
+                ? Integer.parseInt(System.getenv("JSH_HISTFILESIZE"))
                 : 2000;
-        INCREMENTAL_APPEND_HISTORY = System.getenv("INC_APPEND_HISTORY") != null
-                && Boolean.parseBoolean(System.getenv("INC_APPEND_HISTORY"));
+        INCREMENTAL_APPEND_HISTORY = System.getenv("INC_APPEND_HISTORY") == null
+                || Boolean.parseBoolean(System.getenv("INC_APPEND_HISTORY"));
 
     }
 
