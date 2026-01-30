@@ -1,4 +1,4 @@
-package com.github.lowkkid.utils;
+package com.github.lowkkid.jsh.utils;
 
 import java.io.File;
 import java.io.IOException;

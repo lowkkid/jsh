@@ -1,8 +1,8 @@
-package com.github.lowkkid.command.utils;
+package com.github.lowkkid.jsh.command.utils;
 
-import com.github.lowkkid.command.Command;
-import com.github.lowkkid.command.ExternalCommand;
-import com.github.lowkkid.utils.FileUtils;
+import com.github.lowkkid.jsh.command.Command;
+import com.github.lowkkid.jsh.command.ExternalCommand;
+import com.github.lowkkid.jsh.utils.FileUtils;
 import org.reflections.Reflections;
 
 import java.io.File;
@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 
 public class CommandRegistry {
 
-    private static final String COMMANDS_PACKAGE = "com.github.lowkkid.command";
+    private static final String COMMANDS_PACKAGE = "com.github.lowkkid.jsh.command";
 
     public static CommandRegistry getInstance() {
         return CommandRegistryHolder.INSTANCE;

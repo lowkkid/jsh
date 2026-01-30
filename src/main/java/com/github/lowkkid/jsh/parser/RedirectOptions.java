@@ -1,4 +1,4 @@
-package com.github.lowkkid.parser;
+package com.github.lowkkid.jsh.parser;
 
 public class RedirectOptions {
 

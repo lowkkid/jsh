@@ -1,6 +1,6 @@
-package com.github.lowkkid.command;
+package com.github.lowkkid.jsh.command;
 
-import com.github.lowkkid.Main;
+import com.github.lowkkid.jsh.Main;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

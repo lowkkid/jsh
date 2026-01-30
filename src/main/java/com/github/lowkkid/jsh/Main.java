@@ -1,7 +1,10 @@
-package com.github.lowkkid;
+package com.github.lowkkid.jsh;
 
-import com.github.lowkkid.command.utils.CommandRegistry;
-import com.github.lowkkid.parser.InputParser;
+import static com.github.lowkkid.jsh.config.EnvConfigReader.HOME;
+
+import com.github.lowkkid.jsh.command.utils.CommandRegistry;
+import com.github.lowkkid.jsh.parser.InputParser;
+import com.github.lowkkid.jsh.ui.PromptBuilder;
 import org.jline.reader.Completer;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
@@ -12,26 +15,32 @@ import org.jline.terminal.TerminalBuilder;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Scanner;
 
 public class Main {
 
     private static final InputParser PARSER = InputParser.getInstance();
     private static final CommandRegistry COMMANDS_REGISTRY = CommandRegistry.getInstance();
+    private static final PromptBuilder PROMPT_BUILDER = new PromptBuilder();
 
-    public static Path currentDir = Paths.get("").toAbsolutePath();
+    public static Path currentDir = Paths.get(HOME);
 
 
     public static void main(String[] args) throws Exception {
-        Terminal terminal = TerminalBuilder.builder().system(true).build();
-        // Complete with fixed strings
+        Terminal terminal = TerminalBuilder.
+                builder()
+                .system(true)
+                .build();
+
         Completer stringsCompleter = new StringsCompleter(COMMANDS_REGISTRY.getAllCommands());
-        LineReader reader = LineReaderBuilder.builder().terminal(terminal).option(LineReader.Option.DISABLE_EVENT_EXPANSION, true).completer(stringsCompleter).build();
+        LineReader reader = LineReaderBuilder.builder().terminal(terminal).option(LineReader.Option.DISABLE_EVENT_EXPANSION, true)
+                .completer(stringsCompleter)
+                .build();
 
 
         while (true) {
             try {
-                String userInput = reader.readLine("$ ");
+                String prompt = PROMPT_BUILDER.build(currentDir);
+                String userInput = reader.readLine(prompt);
 
                 var commandAndArgs = PARSER.getCommandAndArgs(userInput);
                 var command = commandAndArgs.getCommand();

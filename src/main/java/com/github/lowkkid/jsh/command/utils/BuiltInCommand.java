@@ -1,4 +1,4 @@
-package com.github.lowkkid.command.utils;
+package com.github.lowkkid.jsh.command.utils;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,7 +1,7 @@
-package com.github.lowkkid.command;
+package com.github.lowkkid.jsh.command;
 
-import com.github.lowkkid.Main;
-import com.github.lowkkid.parser.RedirectOptions;
+import com.github.lowkkid.jsh.Main;
+import com.github.lowkkid.jsh.parser.RedirectOptions;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
@@ -10,7 +10,7 @@ import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import static com.github.lowkkid.utils.FileUtils.createParentDirsIfNotExists;
+import static com.github.lowkkid.jsh.utils.FileUtils.createParentDirsIfNotExists;
 
 public abstract class Command {
 

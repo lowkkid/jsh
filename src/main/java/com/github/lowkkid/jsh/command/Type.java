@@ -1,8 +1,8 @@
-package com.github.lowkkid.command;
+package com.github.lowkkid.jsh.command;
 
-import com.github.lowkkid.command.utils.BuiltInCommand;
-import com.github.lowkkid.command.utils.CommandRegistry;
-import com.github.lowkkid.utils.FileUtils;
+import com.github.lowkkid.jsh.command.utils.BuiltInCommand;
+import com.github.lowkkid.jsh.command.utils.CommandRegistry;
+import com.github.lowkkid.jsh.utils.FileUtils;
 
 import java.util.List;
 

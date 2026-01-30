@@ -1,4 +1,4 @@
-package com.github.lowkkid.parser;
+package com.github.lowkkid.jsh.parser;
 
 import java.util.ArrayList;
 import java.util.List;
