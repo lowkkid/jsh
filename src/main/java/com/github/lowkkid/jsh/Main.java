@@ -1,8 +1,10 @@
 package com.github.lowkkid.jsh;
 
+import static com.github.lowkkid.jsh.command.utils.HistoryUtils.configureHistory;
 import static com.github.lowkkid.jsh.config.EnvConfigReader.HOME;
 
 import com.github.lowkkid.jsh.command.utils.CommandRegistry;
+import com.github.lowkkid.jsh.command.utils.HistoryUtils;
 import com.github.lowkkid.jsh.parser.InputParser;
 import com.github.lowkkid.jsh.ui.PromptBuilder;
 import org.jline.reader.Completer;
@@ -25,16 +27,22 @@ public class Main {
     public static Path currentDir = Paths.get(HOME);
 
 
-    public static void main(String[] args) throws Exception {
-        Terminal terminal = TerminalBuilder.
+     static void main() throws Exception {
+        var terminal = TerminalBuilder.
                 builder()
                 .system(true)
                 .build();
 
-        Completer stringsCompleter = new StringsCompleter(COMMANDS_REGISTRY.getAllCommands());
-        LineReader reader = LineReaderBuilder.builder().terminal(terminal).option(LineReader.Option.DISABLE_EVENT_EXPANSION, true)
-                .completer(stringsCompleter)
-                .build();
+        var stringsCompleter = new StringsCompleter(COMMANDS_REGISTRY.getAllCommands());
+        var readerBuilder = LineReaderBuilder.builder()
+                .terminal(terminal)
+                .completer(stringsCompleter);
+
+        configureHistory(readerBuilder);
+
+        var reader = readerBuilder.build();
+
+         HistoryUtils.afterInitialization();
 
 
         while (true) {

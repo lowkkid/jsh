@@ -1,12 +1,10 @@
 package com.github.lowkkid.jsh.command;
 
-import com.github.lowkkid.jsh.command.utils.BuiltInCommand;
 import com.github.lowkkid.jsh.command.utils.CommandRegistry;
 import com.github.lowkkid.jsh.utils.FileUtils;
 
 import java.util.List;
 
-@BuiltInCommand(name = "type")
 public class Type extends Command {
 
     private CommandRegistry registry;

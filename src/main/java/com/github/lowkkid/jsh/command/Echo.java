@@ -1,10 +1,7 @@
 package com.github.lowkkid.jsh.command;
 
-import com.github.lowkkid.jsh.command.utils.BuiltInCommand;
-
 import java.util.List;
 
-@BuiltInCommand(name = "echo")
 public class Echo extends Command {
 
     @Override

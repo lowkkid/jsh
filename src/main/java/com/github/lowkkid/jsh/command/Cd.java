@@ -1,16 +1,13 @@
 package com.github.lowkkid.jsh.command;
 
 import com.github.lowkkid.jsh.Main;
-import com.github.lowkkid.jsh.command.utils.BuiltInCommand;
 import com.github.lowkkid.jsh.utils.FileUtils;
-
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-@BuiltInCommand(name = "cd")
 public class Cd extends Command {
 
     @Override
