@@ -24,7 +24,7 @@ public final class EnvConfigReader {
         HOME = System.getProperty("user.home");
         USERNAME = System.getProperty("user.name");
 
-        LOGS_ENABLED = System.getenv("LOGS") != null && Boolean.parseBoolean(System.getenv("LOGS"));
+        LOGS_ENABLED = System.getenv("LOGS") != null && Boolean.parseBoolean(System.getenv("JSH_LOGS"));
 
         UI_CONFIG_FILE = System.getenv("JSH_UI_CONFIG") != null
                 ? Paths.get(System.getenv("JSH_UI_CONFIG"))
@@ -43,16 +43,4 @@ public final class EnvConfigReader {
                 || Boolean.parseBoolean(System.getenv("INC_APPEND_HISTORY"));
 
     }
-
-    private static Path getHistoryFilePath() {
-        String historyPath = System.getenv("HISTFILE");
-
-        if (historyPath != null && !historyPath.isEmpty()) {
-            return Paths.get(historyPath);
-        }
-
-        String userHome = System.getProperty("user.home");
-        return Paths.get(userHome, ".jsh_history");
-    }
-
 }

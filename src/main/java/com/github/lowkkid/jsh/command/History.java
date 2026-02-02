@@ -23,16 +23,6 @@ import java.util.List;
  * shell sessions. The history is stored both in memory (for the current session) and
  * can be persisted to/loaded from files.
  *
- * <h2>Supported Options</h2>
- * <ul>
- *   <li>{@code history} - Display all history entries with line numbers</li>
- *   <li>{@code history N} - Display the last N entries (like bash)</li>
- *   <li>{@code history -r [file]} - Read history from file and append to current history</li>
- *   <li>{@code history -w [file]} - Write current history to file (overwrites)</li>
- *   <li>{@code history -a [file]} - Append new entries (since last write) to file</li>
- *   <li>{@code history -c} - Clear the history list</li>
- * </ul>
- *
  * <h2>Configuration</h2>
  * <ul>
  *   <li>{@code IN_MEMORY_HISTORY_MAX_ENTRIES} - Maximum entries kept in memory (like HISTSIZE in bash)</li>
@@ -81,15 +71,18 @@ public class History extends Command {
 
     /**
      * Executes the history command with the given arguments.
-     * <p>
-     * Argument parsing follows bash conventions:
+     *
+     * <h4>Supported Arguments</h2>
      * <ul>
-     *   <li>A numeric argument N displays the last N entries</li>
-     *   <li>Options can optionally take a filename argument</li>
-     *   <li>If no filename is provided, the default history file is used</li>
-     *   <li>Unknown options starting with '-' are rejected</li>
-     * </ul>
-     * </p>
+     *   <li>No args - Display all history entries with line numbers</li>
+     *   <li>{@code N} - Display the last N entries (like bash)</li>
+     *   <li>{@code -r [file]} - Read history from file and append to current history,
+     *   If no filename is provided, the default history file is used</li>
+     *   <li>{@code -w [file]} - Write current history to file (overwrites),
+     *   If no filename is provided, the default history file is used</li>
+     *   <li>{@code -a [file]} - Append new entries (since last write) to file,
+     *   If no filename is provided, the default history file is used</li>
+     *   <li>{@code -c} - Clear the history list</li>
      *
      * @param args command arguments (options and/or count)
      * @throws Exception if an I/O error occurs during file operations

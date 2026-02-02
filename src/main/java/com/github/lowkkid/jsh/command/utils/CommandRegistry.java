@@ -189,7 +189,7 @@ public class CommandRegistry {
         registerBuiltIn("exit", new Exit());
         registerBuiltIn("cd", new Cd());
         registerBuiltIn("pwd", new Pwd());
-        registerBuiltIn("type", new Type());
+        registerBuiltIn("type", new Type(this));
         registerBuiltIn("history", new History());
     }
 
