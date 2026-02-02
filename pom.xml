@@ -18,6 +18,7 @@
         <gson.version>2.13.2</gson.version>
         <junit.version>5.14.2</junit.version>
         <mockito-core.version>5.21.0</mockito-core.version>
+        <checkstyle.version>13.1.0</checkstyle.version>
     </properties>
 
     <dependencies>
@@ -78,6 +79,13 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
                 <version>3.6.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>${checkstyle.version}</version>
+                    </dependency>
+                </dependencies>
                 <configuration>
                     <configLocation>config/checkstyle/checkstyle.xml</configLocation>
                     <consoleOutput>true</consoleOutput>
