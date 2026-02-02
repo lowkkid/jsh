@@ -1,7 +1,5 @@
 package com.github.lowkkid.jsh.config;
 
-import com.github.lowkkid.jsh.ui.PromptBuilder;
-
 /**
  * Separator styles between prompt segments in powerline style.
  *
@@ -18,12 +16,12 @@ public enum SeparatorStyle {
     FLAT(""),
 
     /**
-     * Triangle separator (U+E0B0):
+     * Triangle separator (U+E0B0).
      */
     TRIANGLE("\uE0B0"),
 
     /**
-     * Rounded separator (U+E0B4):
+     * Rounded separator (U+E0B4).
      */
     ROUNDED("\uE0B4");
 

@@ -1,7 +1,6 @@
 package com.github.lowkkid.jsh.command;
 
 import com.github.lowkkid.jsh.Main;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;

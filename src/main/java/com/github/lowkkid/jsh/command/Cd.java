@@ -22,10 +22,10 @@ public class Cd extends Command {
         }
 
 
-        var currentDirectories = new LinkedList<>(Arrays.asList(Main.currentDir.toString().split("/"))) ;
-        for (var dirMove: dirArg.split("/")) {
+        var currentDirectories = new LinkedList<>(Arrays.asList(Main.currentDir.toString().split("/")));
+        for (var dirMove : dirArg.split("/")) {
             switch (dirMove) {
-                case "." -> {}
+                case "." -> {  }
                 case ".." -> currentDirectories.removeLast();
                 default -> currentDirectories.add(dirMove);
             }

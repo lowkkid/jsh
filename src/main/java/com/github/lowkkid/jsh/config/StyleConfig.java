@@ -90,7 +90,10 @@ public record StyleConfig(
     }
 
     private static int parseColor(String colorName) {
-        if (colorName == null) return -1;
+        if (colorName == null) {
+            return -1;
+        }
+
         return switch (colorName.toLowerCase()) {
             case "black" -> AttributedStyle.BLACK;
             case "red" -> AttributedStyle.RED;

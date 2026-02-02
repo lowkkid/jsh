@@ -13,8 +13,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,6 +29,7 @@ import java.util.stream.Stream;
  * in PATH are lazily cached.
  *
  * <h2>Caching Strategy</h2>
+ *
  * <p>External commands are cached using an LRU (Least Recently Used) eviction policy
  * with a maximum capacity of {@value #MAX_EXTERNAL_COMMANDS_CACHE} entries.
  * Built-in commands are never evicted from the cache.
@@ -162,7 +166,8 @@ public class CommandRegistry {
                         .map(path ->  path.getFileName().toString())
                         .collect(Collectors.toSet());
                 allCommands.addAll(found);
-            } catch (IOException _) {
+            } catch (IOException e) {
+                //ignored
             }
         }
         return allCommands;

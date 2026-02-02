@@ -14,7 +14,7 @@ public final class FileUtils {
     public static String existsInPathDirectories(String command) {
         String[] directoriesFromPathEnv = System.getenv("PATH").split(File.pathSeparator);
 
-        for(var directoryFromPathEnv : directoriesFromPathEnv) {
+        for (var directoryFromPathEnv : directoriesFromPathEnv) {
             try (Stream<Path> contentOfDirectoryFromPathEnv = Files.list(Path.of(directoryFromPathEnv))) {
                 var found =  contentOfDirectoryFromPathEnv.filter(Files::isExecutable)
                         .filter(path -> path.endsWith(command))
@@ -22,7 +22,8 @@ public final class FileUtils {
                 if (found.isPresent()) {
                     return found.get().toString();
                 }
-            } catch (IOException _) {
+            } catch (IOException e) {
+                // ignored
             }
         }
         return null;

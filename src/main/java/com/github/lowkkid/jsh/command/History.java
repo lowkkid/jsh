@@ -46,6 +46,7 @@ public class History extends Command {
 
     /**
      * Tracks how many history entries have been written to file.
+     *
      * <p>
      * This counter is crucial for the {@code -a} (append) functionality:
      * <ul>
@@ -59,6 +60,7 @@ public class History extends Command {
 
     /**
      * Initializes {@code historyWrittenCount} after the default history file is loaded.
+     *
      * <p>
      * Must be called once after JLine loads the history file at startup.
      * This ensures that entries loaded from the default file are not re-appended
@@ -72,18 +74,20 @@ public class History extends Command {
     /**
      * Executes the history command with the given arguments.
      *
-     * <h4>Supported Arguments</h2>
-     * <ul>
-     *   <li>No args - Display all history entries with line numbers</li>
-     *   <li>{@code N} - Display the last N entries (like bash)</li>
-     *   <li>{@code -r [file]} - Read history from file and append to current history,
-     *   If no filename is provided, the default history file is used</li>
-     *   <li>{@code -w [file]} - Write current history to file (overwrites),
-     *   If no filename is provided, the default history file is used</li>
-     *   <li>{@code -a [file]} - Append new entries (since last write) to file,
-     *   If no filename is provided, the default history file is used</li>
-     *   <li>{@code -c} - Clear the history list</li>
-     *
+     * <p>
+     *  <h4>Supported Arguments</h2>
+     *  <ul>
+     *      <li>No args - Display all history entries with line numbers</li>
+     *      <li>{@code N} - Display the last N entries (like bash)</li>
+     *      <li>{@code -r [file]} - Read history from file and append to current history, If no filename is provided,
+     *      the default history file is used</li>
+     *      <li>{@code -w [file]} - Write current history to file (overwrites), If no filename is provided,
+     *      the default history file is used</li>
+     *      <li>{@code -a [file]} - Append new entries (since last write) to file, If no filename is provided,
+     *      the default history file is used</li>
+     *      <li>{@code -c} - Clear the history list</li>
+     *  </ul>
+     * </p>
      * @param args command arguments (options and/or count)
      * @throws Exception if an I/O error occurs during file operations
      */
@@ -140,14 +144,17 @@ public class History extends Command {
 
     /**
      * Writes the entire in-memory history to the specified file, overwriting it.
+     *
      * <p>
      * <b>Bash equivalent:</b> {@code history -w filename}
      * </p>
+     *
      * <p>
      * <b>FILE_HISTORY_MAX_ENTRIES limit:</b> If the in-memory history exceeds this limit,
      * only the most recent entries are written (older entries are truncated).
      * This mirrors bash's {@code HISTFILESIZE} behavior.
      * </p>
+     *
      * <p>
      * After writing, {@code historyWrittenCount} is updated so subsequent {@code -a}
      * calls won't duplicate these entries.
@@ -177,9 +184,11 @@ public class History extends Command {
 
     /**
      * Appends only new history entries (since last write) to the specified file.
+     *
      * <p>
      * <b>Bash equivalent:</b> {@code history -a filename}
      * </p>
+     *
      * <p>
      * Any entry with index >= {@code historyWrittenCount} is considered new. This includes:
      * <ul>
@@ -187,6 +196,7 @@ public class History extends Command {
      *   <li>Entries loaded via {@code -r} (if historyWrittenCount wasn't updated - but we do update it)</li>
      * </ul>
      * </p>
+     *
      * <p>
      * <b>Note:</b> Unlike {@code -w}, this does NOT apply FILE_HISTORY_MAX_ENTRIES limit.
      * The file may grow beyond the limit. Use {@code -w} periodically to truncate.
@@ -226,9 +236,11 @@ public class History extends Command {
 
     /**
      * Reads history entries from a file and appends them to the current in-memory history.
+     *
      * <p>
      * <b>Bash equivalent:</b> {@code history -r filename}
      * </p>
+     *
      * <p>
      * <b>Important behaviors:</b>
      * <ul>
@@ -236,6 +248,7 @@ public class History extends Command {
      *   <li>Loading stops if IN_MEMORY_HISTORY_MAX_ENTRIES limit is reached</li>
      * </ul>
      * </p>
+     *
      * <p>
      * <b>Note:</b> This method does not update {@code historyWrittenCount}.
      * The caller ({@code executeWithException}) is responsible for updating it

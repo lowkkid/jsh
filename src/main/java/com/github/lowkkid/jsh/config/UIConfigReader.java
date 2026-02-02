@@ -6,7 +6,6 @@ import static com.github.lowkkid.jsh.logger.LogMessages.UI_CONFIG_READ_ERROR;
 
 import com.github.lowkkid.jsh.logger.Logger;
 import com.google.gson.GsonBuilder;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;

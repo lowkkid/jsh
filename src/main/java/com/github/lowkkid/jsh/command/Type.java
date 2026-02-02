@@ -2,7 +2,6 @@ package com.github.lowkkid.jsh.command;
 
 import com.github.lowkkid.jsh.command.utils.CommandRegistry;
 import com.github.lowkkid.jsh.utils.FileUtils;
-
 import java.util.List;
 import java.util.function.Function;
 

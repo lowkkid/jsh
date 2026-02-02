@@ -7,16 +7,12 @@ import com.github.lowkkid.jsh.command.utils.CommandRegistry;
 import com.github.lowkkid.jsh.command.utils.HistoryUtils;
 import com.github.lowkkid.jsh.parser.InputParser;
 import com.github.lowkkid.jsh.ui.PromptBuilder;
-import org.jline.reader.Completer;
-import org.jline.reader.LineReader;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.reader.UserInterruptException;
 import org.jline.reader.impl.completer.StringsCompleter;
-import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class Main {
 
