@@ -23,9 +23,9 @@ public class Main {
     public static Path currentDir = Paths.get(HOME);
 
 
-     static void main() throws Exception {
-        var terminal = TerminalBuilder.
-                builder()
+    static void main() throws Exception {
+        var terminal = TerminalBuilder
+                .builder()
                 .system(true)
                 .build();
 
@@ -38,7 +38,7 @@ public class Main {
 
         var reader = readerBuilder.build();
 
-         HistoryUtils.afterInitialization();
+        HistoryUtils.afterInitialization();
 
 
         while (true) {

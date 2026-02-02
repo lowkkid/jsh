@@ -74,20 +74,19 @@ public class History extends Command {
     /**
      * Executes the history command with the given arguments.
      *
-     * <p>
-     *  <h4>Supported Arguments</h2>
-     *  <ul>
-     *      <li>No args - Display all history entries with line numbers</li>
-     *      <li>{@code N} - Display the last N entries (like bash)</li>
-     *      <li>{@code -r [file]} - Read history from file and append to current history, If no filename is provided,
-     *      the default history file is used</li>
-     *      <li>{@code -w [file]} - Write current history to file (overwrites), If no filename is provided,
-     *      the default history file is used</li>
-     *      <li>{@code -a [file]} - Append new entries (since last write) to file, If no filename is provided,
-     *      the default history file is used</li>
-     *      <li>{@code -c} - Clear the history list</li>
-     *  </ul>
-     * </p>
+     * <h4>Supported Arguments</h4>
+     * <ul>
+     *   <li>No args - Display all history entries with line numbers</li>
+     *   <li>{@code N} - Display the last N entries (like bash)</li>
+     *   <li>{@code -r [file]} - Read history from file and append to current history.
+     *       If no filename is provided, the default history file is used</li>
+     *   <li>{@code -w [file]} - Write current history to file (overwrites).
+     *       If no filename is provided, the default history file is used</li>
+     *   <li>{@code -a [file]} - Append new entries (since last write) to file.
+     *       If no filename is provided, the default history file is used</li>
+     *   <li>{@code -c} - Clear the history list</li>
+     * </ul>
+     *
      * @param args command arguments (options and/or count)
      * @throws Exception if an I/O error occurs during file operations
      */
@@ -285,13 +284,16 @@ public class History extends Command {
 
     /**
      * Displays history entries to stdout with line numbers.
+     *
      * <p>
      * <b>Bash equivalent:</b> {@code history} or {@code history N}
      * </p>
+     *
      * <p>
      * Output format matches bash: line numbers are right-aligned with padding,
      * followed by two spaces and the command text.
      * </p>
+     *
      * <p>
      * Example output:
      * <pre>

@@ -41,6 +41,7 @@ public record PromptConfig(
      *
      * @return default config
      */
+    @SuppressWarnings("checkstyle:methodname")
     public static PromptConfig DEFAULT() {
         return new PromptConfig(
                 false,

@@ -9,6 +9,7 @@ package com.github.lowkkid.jsh.config;
  * <p>Requires a font with Powerline symbol support (e.g., Nerd Fonts, Powerline Fonts)
  * for correct rendering.</p>
  */
+@SuppressWarnings("checkstyle:avoidescapedunicodecharacters")
 public enum SeparatorStyle {
     /**
      * No separator — flat rectangular edge between segments.

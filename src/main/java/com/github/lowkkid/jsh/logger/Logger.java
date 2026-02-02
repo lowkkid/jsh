@@ -7,7 +7,7 @@ public final class Logger {
     private Logger() {
     }
 
-    public static void log (String message) {
+    public static void log(String message) {
         if (LOGS_ENABLED) {
             System.out.println(message);
         }

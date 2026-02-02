@@ -3,10 +3,10 @@ package com.github.lowkkid.jsh.ui;
 import com.github.lowkkid.jsh.config.PromptConfig;
 import com.github.lowkkid.jsh.config.StyleConfig;
 import com.github.lowkkid.jsh.config.UIConfigReader;
+import java.nio.file.Path;
 import org.jline.utils.AttributedStringBuilder;
 import org.jline.utils.AttributedStyle;
 
-import java.nio.file.Path;
 
 /**
  * Builds the prompt string with powerline-style support.
@@ -15,7 +15,8 @@ import java.nio.file.Path;
  * <pre>
  * [user][sep][path][sep][symbol]
  * </pre>
- * <h4>Powerline separators</h2>
+ * <h4>Powerline separators</h4>
+ *
  * <p>For the separator to appear as a smooth transition between segments:</p>
  * <ul>
  *   <li>separator foreground = previous segment's background (the "arrow" color)</li>
