@@ -5,6 +5,7 @@ import static com.github.lowkkid.jsh.config.EnvConfigReader.HOME;
 
 import com.github.lowkkid.jsh.command.utils.CommandRegistry;
 import com.github.lowkkid.jsh.command.utils.HistoryUtils;
+import com.github.lowkkid.jsh.executor.SegmentedExecutor;
 import com.github.lowkkid.jsh.parser.InputParser;
 import com.github.lowkkid.jsh.ui.PromptBuilder;
 import java.nio.file.Path;
@@ -19,6 +20,8 @@ public class Main {
     private static final InputParser PARSER = InputParser.getInstance();
     private static final CommandRegistry COMMANDS_REGISTRY = CommandRegistry.getInstance();
     private static final PromptBuilder PROMPT_BUILDER = new PromptBuilder();
+    private static final SegmentedExecutor PIPELINE_EXECUTOR =
+            new SegmentedExecutor(COMMANDS_REGISTRY);
 
     public static Path currentDir = Paths.get(HOME);
 
@@ -46,27 +49,19 @@ public class Main {
                 String prompt = PROMPT_BUILDER.build(currentDir);
                 String userInput = reader.readLine(prompt);
 
-                var commandAndArgs = PARSER.getCommandAndArgs(userInput);
-                var command = commandAndArgs.getCommand();
-                var arguments = commandAndArgs.getArguments();
-                var shouldBeRedirected = commandAndArgs.shouldBeRedirected();
+                var commandsAndArgs = PARSER.getCommandAndArgs(userInput);
 
-                var executableCommandOpt = COMMANDS_REGISTRY.getExecutableCommand(command);
-
-                if (executableCommandOpt.isEmpty()) {
-                    System.out.println(command + ": not found");
+                SegmentedExecutor.ExecutionResult result;
+                if (commandsAndArgs.size() == 1) {
+                    result = PIPELINE_EXECUTOR.executeSingle(commandsAndArgs.getFirst());
                 } else {
-                    var executableCommand = executableCommandOpt.get();
-                    if (shouldBeRedirected) {
-                        executableCommand.executeWithRedirect(
-                                arguments, commandAndArgs.getRedirectOptions());
-                    } else {
-                        executableCommand.execute(arguments);
-                    }
-                    if (executableCommand.shouldBreak()) {
-                        break;
-                    }
+                    result = PIPELINE_EXECUTOR.executePipeline(commandsAndArgs);
                 }
+
+                if (result.shouldBreak()) {
+                    break;
+                }
+
             } catch (UserInterruptException e) {
                 // Ctrl+C
             }

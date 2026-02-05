@@ -31,6 +31,7 @@ public class PromptBuilder {
      * @param currentDir current working directory
      * @return string with ANSI escape sequences for colors
      */
+    // TODO: check time now, and optimize it with caching parts, that are changed not often
     public String build(Path currentDir) {
         PromptConfig config = UIConfigReader.readPromptConfigOrDefault();
 

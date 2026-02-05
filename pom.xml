@@ -113,6 +113,12 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
+                        <configuration>
+                            <excludes>
+                                <exclude>com/github/lowkkid/jsh/parser/CommandAndArgs.class</exclude>
+                                <exclude>com/github/lowkkid/jsh/parser/RedirectOptions.class</exclude>
+                            </excludes>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

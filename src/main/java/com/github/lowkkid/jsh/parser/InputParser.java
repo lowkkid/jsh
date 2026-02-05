@@ -19,7 +19,8 @@ public class InputParser {
     private String redirectTo = null;
     private RedirectOptions.RedirectType redirectType = RedirectOptions.RedirectType.REWRITE;
     private RedirectOptions.RedirectStream redirectStream = RedirectOptions.RedirectStream.STDOUT;
-    private final List<String> arguments = new ArrayList<>();
+    private List<String> arguments = new ArrayList<>();
+
 
     public InputParser() {
     }
@@ -28,16 +29,24 @@ public class InputParser {
         return InputParserHolder.INSTANCE;
     }
 
-    public CommandAndArgs getCommandAndArgs(String userInput) {
-        reset();
+    public List<CommandAndArgs> getCommandAndArgs(String userInput) {
         input = userInput.trim();
-        parseCommand();
-        parseArguments();
-        RedirectOptions redirectOptions = null;
-        if (redirectTo != null) {
-            redirectOptions = new RedirectOptions(redirectTo, redirectType, redirectStream);
+        index = 0;
+        reset();
+        List<CommandAndArgs> commandsAndArgs = new ArrayList<>();
+        while (index < input.length()) {
+            reset();
+            parseCommand();
+            parseArguments();
+            var commandAndArgs = new CommandAndArgs(
+                    command,
+                    arguments,
+                    redirectTo != null
+                            ? new RedirectOptions(redirectTo, redirectType, redirectStream)
+                            : null);
+            commandsAndArgs.add(commandAndArgs);
         }
-        return new CommandAndArgs(command, arguments, redirectOptions);
+        return commandsAndArgs;
     }
 
     private void parseCommand() {
@@ -75,6 +84,10 @@ public class InputParser {
             }
 
             switch (currentChar) {
+                case '|' -> {
+                    skipWhitespace();
+                    return;
+                }
                 case '>' -> handleRedirect();
                 case '\\' -> handleBackslash();
                 case '\'' -> handleSingleQuote();
@@ -175,14 +188,12 @@ public class InputParser {
         redirectType = RedirectOptions.RedirectType.REWRITE;
         redirectStream = RedirectOptions.RedirectStream.STDOUT;
         sb.setLength(0);
-        index = 0;
-        input = "";
         isEscaping = false;
         isCommandQuoted = false;
         isWithinSingleQuotes = false;
         isWithinDoubleQuotes = false;
         command = "";
-        arguments.clear();
+        arguments = new ArrayList<>();
     }
 
     private static class InputParserHolder {
