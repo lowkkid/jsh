@@ -82,7 +82,7 @@ public class SegmentedExecutor implements CommandExecutor {
      * <p>Consecutive external commands are grouped into a single segment.
      * Each built-in command becomes its own segment.
      */
-    List<PipelineSegment> splitIntoSegments(List<CommandAndArgs> commandsAndArgs) {
+    protected List<PipelineSegment> splitIntoSegments(List<CommandAndArgs> commandsAndArgs) {
         List<PipelineSegment> segments = new ArrayList<>();
         List<CommandAndArgs> currentExternalBatch = new ArrayList<>();
 

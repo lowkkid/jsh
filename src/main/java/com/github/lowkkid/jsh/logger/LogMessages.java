@@ -10,5 +10,5 @@ public final class LogMessages {
     public static String UI_CONFIG_FILE_DOES_NOT_EXIST =
             "ERROR: UI config file does not exist: %s, default config applied";
     public static String UI_CONFIG_READ_ERROR =
-            "ERROR: Error reading UI config: %s, default config applied";
+            "ERROR: Error reading UI config from: %s, default config applied";
 }

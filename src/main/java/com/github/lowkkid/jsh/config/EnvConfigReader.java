@@ -9,7 +9,7 @@ public final class EnvConfigReader {
     private EnvConfigReader() {
     }
 
-    public static String HOME;
+    public static final String HOME;
     public static String USERNAME;
     public static Boolean LOGS_ENABLED;
     public static Path UI_CONFIG_FILE;

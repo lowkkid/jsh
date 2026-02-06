@@ -11,7 +11,15 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class UIConfigReader {
+public final class PromptConfigReader {
+
+    private static PromptConfig uiConfig;
+
+    private PromptConfigReader() {}
+
+    static void reset() {
+        uiConfig = null;
+    }
 
     private static PromptConfig readPromptConfig(Path path) throws IOException {
         try (Reader reader = Files.newBufferedReader(path)) {
@@ -21,17 +29,21 @@ public class UIConfigReader {
         }
     }
 
-    public static PromptConfig readPromptConfigOrDefault() {
+    public static PromptConfig getConfig() {
         var configFile = UI_CONFIG_FILE;
         try {
-            if (Files.exists(configFile)) {
-                return readPromptConfig(configFile);
-            } else {
-                Logger.log(String.format(UI_CONFIG_FILE_DOES_NOT_EXIST, configFile));
+            if (uiConfig == null) {
+                if (Files.exists(configFile)) {
+                    uiConfig = readPromptConfig(configFile);
+                } else {
+                    uiConfig = PromptConfig.DEFAULT();
+                    Logger.log(String.format(UI_CONFIG_FILE_DOES_NOT_EXIST, configFile));
+                }
             }
         } catch (IOException ignored) {
+            uiConfig = PromptConfig.DEFAULT();
             Logger.log(String.format(UI_CONFIG_READ_ERROR, configFile));
         }
-        return PromptConfig.DEFAULT();
+        return uiConfig;
     }
 }

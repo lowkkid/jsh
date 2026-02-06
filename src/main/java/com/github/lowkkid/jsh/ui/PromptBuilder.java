@@ -2,7 +2,7 @@ package com.github.lowkkid.jsh.ui;
 
 import com.github.lowkkid.jsh.config.PromptConfig;
 import com.github.lowkkid.jsh.config.StyleConfig;
-import com.github.lowkkid.jsh.config.UIConfigReader;
+import com.github.lowkkid.jsh.config.PromptConfigReader;
 import java.nio.file.Path;
 import org.jline.utils.AttributedStringBuilder;
 import org.jline.utils.AttributedStyle;
@@ -31,9 +31,8 @@ public class PromptBuilder {
      * @param currentDir current working directory
      * @return string with ANSI escape sequences for colors
      */
-    // TODO: check time now, and optimize it with caching parts, that are changed not often
     public String build(Path currentDir) {
-        PromptConfig config = UIConfigReader.readPromptConfigOrDefault();
+        PromptConfig config = PromptConfigReader.getConfig();
 
         AttributedStringBuilder sb = new AttributedStringBuilder();
 

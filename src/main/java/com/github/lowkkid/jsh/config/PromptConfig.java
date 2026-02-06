@@ -3,7 +3,7 @@ package com.github.lowkkid.jsh.config;
 /**
  * Configuration for the command line prompt appearance.
  *
- * <p>Loaded from a JSON file via {@link UIConfigReader}. Example config:</p>
+ * <p>Loaded from a JSON file via {@link PromptConfigReader}. Example config:</p>
  * <pre>
  * {
  *   "includeUser": true,
