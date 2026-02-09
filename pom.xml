@@ -117,6 +117,9 @@
                             <excludes>
                                 <exclude>com/github/lowkkid/jsh/parser/CommandAndArgs.class</exclude>
                                 <exclude>com/github/lowkkid/jsh/parser/RedirectOptions.class</exclude>
+                                <exclude>com/github/lowkkid/jsh/config/StyleConfig.class</exclude>
+                                <exclude>com/github/lowkkid/jsh/config/PromptConfig.class</exclude>
+                                <exclude>com/github/lowkkid/jsh/config/SeparatorStyle.class</exclude>
                             </excludes>
                         </configuration>
                     </execution>

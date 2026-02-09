@@ -13,6 +13,7 @@ import java.nio.file.Paths;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.reader.UserInterruptException;
 import org.jline.reader.impl.completer.StringsCompleter;
+import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 
 public class Main {
@@ -24,6 +25,7 @@ public class Main {
             new SegmentedExecutor(COMMANDS_REGISTRY);
 
     public static Path currentDir = Paths.get(HOME);
+    public static Terminal terminal;
 
 
     static void main() throws Exception {
@@ -31,6 +33,7 @@ public class Main {
                 .builder()
                 .system(true)
                 .build();
+        Main.terminal = terminal;
 
         var stringsCompleter = new StringsCompleter(COMMANDS_REGISTRY.getAllCommands());
         var readerBuilder = LineReaderBuilder.builder()

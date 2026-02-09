@@ -2,6 +2,7 @@ package com.github.lowkkid.jsh.command.utils;
 
 import com.github.lowkkid.jsh.command.Cd;
 import com.github.lowkkid.jsh.command.Command;
+import com.github.lowkkid.jsh.command.Dc;
 import com.github.lowkkid.jsh.command.Echo;
 import com.github.lowkkid.jsh.command.Exit;
 import com.github.lowkkid.jsh.command.ExternalCommand;
@@ -196,6 +197,7 @@ public class CommandRegistry {
         registerBuiltIn("pwd", new Pwd());
         registerBuiltIn("type", new Type(this));
         registerBuiltIn("history", new History());
+        registerBuiltIn("dc", new Dc());
     }
 
     private void registerBuiltIn(String name, Command command) {
