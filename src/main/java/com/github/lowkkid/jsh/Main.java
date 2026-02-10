@@ -5,6 +5,8 @@ import static com.github.lowkkid.jsh.config.EnvConfigReader.HOME;
 
 import com.github.lowkkid.jsh.command.utils.CommandRegistry;
 import com.github.lowkkid.jsh.command.utils.HistoryUtils;
+import com.github.lowkkid.jsh.config.RcFileReader;
+import com.github.lowkkid.jsh.executor.CommandExecutor;
 import com.github.lowkkid.jsh.executor.SegmentedExecutor;
 import com.github.lowkkid.jsh.parser.InputParser;
 import com.github.lowkkid.jsh.ui.CommandHighlighter;
@@ -32,6 +34,8 @@ public class Main {
 
 
     static void main() throws Exception {
+        RcFileReader.executeRcFileCommands();
+
         var terminal = TerminalBuilder
                 .builder()
                 .system(true)
@@ -53,22 +57,13 @@ public class Main {
 
         HistoryUtils.afterInitialization();
 
-
         while (true) {
             try {
                 String prompt = PROMPT_BUILDER.build(currentDir);
                 String userInput = reader.readLine(prompt);
 
-                var commandsAndArgs = PARSER.getCommandAndArgs(userInput);
-
-                SegmentedExecutor.ExecutionResult result;
-                if (commandsAndArgs.size() == 1) {
-                    result = PIPELINE_EXECUTOR.executeSingle(commandsAndArgs.getFirst());
-                } else {
-                    result = PIPELINE_EXECUTOR.executePipeline(commandsAndArgs);
-                }
-
-                if (result.shouldBreak()) {
+                var res = parseAndExecute(userInput);
+                if (res.shouldBreak()) {
                     break;
                 }
 
@@ -79,6 +74,16 @@ public class Main {
         HistoryUtils.HISTORY.save();
         terminal.close();
 
+    }
+
+    public static CommandExecutor.ExecutionResult parseAndExecute(String input) {
+        var commandsAndArgs = PARSER.getCommandAndArgs(input);
+
+        if (commandsAndArgs.size() == 1) {
+            return PIPELINE_EXECUTOR.executeSingle(commandsAndArgs.getFirst());
+        } else {
+            return PIPELINE_EXECUTOR.executePipeline(commandsAndArgs);
+        }
     }
 
 }

@@ -1,5 +1,7 @@
 package com.github.lowkkid.jsh.ui;
 
+import static com.github.lowkkid.jsh.config.EnvConfigReader.USERNAME;
+
 import com.github.lowkkid.jsh.config.PromptConfig;
 import com.github.lowkkid.jsh.config.PromptConfigReader;
 import com.github.lowkkid.jsh.config.StyleConfig;
@@ -44,7 +46,7 @@ public class PromptBuilder {
         if (config.includeUser()) {
             sb.style(userStyle.toAttributedStyle())
                     .append(" ")
-                    .append(System.getProperty("user.name"))
+                    .append(USERNAME)
                     .append(" ");
 
             // separator after user: fg = user bg, bg = path bg

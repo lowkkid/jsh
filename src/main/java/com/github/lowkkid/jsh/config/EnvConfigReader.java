@@ -9,8 +9,8 @@ public final class EnvConfigReader {
     private EnvConfigReader() {
     }
 
-    public static final String HOME;
-    public static String USERNAME;
+    public static final String HOME = System.getProperty("user.home");
+    public static String USERNAME = System.getProperty("user.name");
     public static Boolean LOGS_ENABLED;
     public static Path UI_CONFIG_FILE;
 
@@ -21,9 +21,6 @@ public final class EnvConfigReader {
 
 
     static {
-        HOME = System.getProperty("user.home");
-        USERNAME = System.getProperty("user.name");
-
         LOGS_ENABLED = System.getenv("LOGS") != null && Boolean.parseBoolean(System.getenv("JSH_LOGS"));
 
         UI_CONFIG_FILE = System.getenv("JSH_UI_CONFIG") != null
