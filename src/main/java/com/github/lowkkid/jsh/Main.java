@@ -11,8 +11,10 @@ import com.github.lowkkid.jsh.ui.CommandHighlighter;
 import com.github.lowkkid.jsh.ui.PromptBuilder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import org.jline.builtins.Completers.FilesCompleter;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.reader.UserInterruptException;
+import org.jline.reader.impl.completer.ArgumentCompleter;
 import org.jline.reader.impl.completer.StringsCompleter;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
@@ -36,11 +38,14 @@ public class Main {
                 .build();
         Main.terminal = terminal;
 
-        var stringsCompleter = new StringsCompleter(COMMANDS_REGISTRY.getAllCommands());
+        var commandCompleter = new ArgumentCompleter(
+                new StringsCompleter(COMMANDS_REGISTRY.getAllCommands()),
+                new FilesCompleter(() -> currentDir)
+        );
         var readerBuilder = LineReaderBuilder.builder()
                 .terminal(terminal)
                 .highlighter(new CommandHighlighter(COMMANDS_REGISTRY))
-                .completer(stringsCompleter);
+                .completer(commandCompleter);
 
         configureHistory(readerBuilder);
 
