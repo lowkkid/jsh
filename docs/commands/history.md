@@ -64,12 +64,12 @@ history -c
 
 History behavior can be configured through environment variables:
 
-| Variable | Description |
-|----------|-------------|
-| `JSH_HISTFILE` | Path to the default history file |
-| `JSH_HISTSIZE` | Maximum number of entries kept in memory |
-| `JSH_HISTFILESIZE` | Maximum number of entries written to file (applied on `-w`) |
-
+| Variable | Description                                                                             |
+|----|-----------------------------------------------------------------------------------------|
+| `JSH_HISTFILE` | Path to the default history file                                                        |
+| `JSH_HISTSIZE` | Maximum number of entries kept in memory                                                |
+| `JSH_HISTFILESIZE` | Maximum number of entries written to file (applied on `-w`)                             |
+| `INC_APPEND_HISTORY` | When sen to `true` - commands are automatically written to history file after execution |
 ## Use Cases
 
 ### Syncing history between terminals
