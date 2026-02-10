@@ -107,4 +107,8 @@ public abstract class Command {
     protected BufferedReader getStdIn() {
         return stdIn;
     }
+
+    protected boolean isRedirected() {
+        return stdOut != System.out || stdErr != System.err;
+    }
 }

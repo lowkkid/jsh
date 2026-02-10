@@ -1,8 +1,8 @@
 package com.github.lowkkid.jsh.ui;
 
 import com.github.lowkkid.jsh.config.PromptConfig;
-import com.github.lowkkid.jsh.config.StyleConfig;
 import com.github.lowkkid.jsh.config.PromptConfigReader;
+import com.github.lowkkid.jsh.config.StyleConfig;
 import java.nio.file.Path;
 import org.jline.utils.AttributedStringBuilder;
 import org.jline.utils.AttributedStyle;

@@ -20,24 +20,29 @@ public class ExternalCommand extends Command {
         ProcessBuilder pb = new ProcessBuilder(
                 Stream.concat(Stream.of(commandName), args.stream()).toList())
                 .directory(Main.currentDir.toFile());
-        pb.redirectErrorStream(false);
-
-        Process process = pb.start();
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                stdOut.println(line);
+        if (isRedirected()) {
+            pb.redirectErrorStream(false);
+            Process process = pb.start();
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    stdOut.println(line);
+                }
             }
-        }
 
-        try (BufferedReader errorReader = new BufferedReader(
-                new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8))) {
-            String line;
-            while ((line = errorReader.readLine()) != null) {
-                stdErr.println(line);
+            try (BufferedReader errorReader = new BufferedReader(
+                    new InputStreamReader(process.getErrorStream(), StandardCharsets.UTF_8))) {
+                String line;
+                while ((line = errorReader.readLine()) != null) {
+                    stdErr.println(line);
+                }
             }
+            process.waitFor();
+        } else {
+            pb.inheritIO();
+            Process process = pb.start();
+            process.waitFor();
         }
-        process.waitFor();
     }
 }

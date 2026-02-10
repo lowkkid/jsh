@@ -7,6 +7,7 @@ import com.github.lowkkid.jsh.command.utils.CommandRegistry;
 import com.github.lowkkid.jsh.command.utils.HistoryUtils;
 import com.github.lowkkid.jsh.executor.SegmentedExecutor;
 import com.github.lowkkid.jsh.parser.InputParser;
+import com.github.lowkkid.jsh.ui.CommandHighlighter;
 import com.github.lowkkid.jsh.ui.PromptBuilder;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,6 +39,7 @@ public class Main {
         var stringsCompleter = new StringsCompleter(COMMANDS_REGISTRY.getAllCommands());
         var readerBuilder = LineReaderBuilder.builder()
                 .terminal(terminal)
+                .highlighter(new CommandHighlighter(COMMANDS_REGISTRY))
                 .completer(stringsCompleter);
 
         configureHistory(readerBuilder);
