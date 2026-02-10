@@ -1,11 +1,9 @@
 package com.github.lowkkid.jsh.command;
 
 import com.github.lowkkid.jsh.Main;
-import java.io.BufferedReader;
+import com.github.lowkkid.jsh.command.utils.DefaultDockerClient;
+import com.github.lowkkid.jsh.command.utils.DockerClient;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import org.jline.terminal.Attributes;
 import org.jline.terminal.Terminal;
@@ -27,7 +25,14 @@ public class Dc extends Command {
     private static final int COL_IMAGE = 20;
     private static final int COL_STATUS = 22;
 
-    private record ContainerInfo(String id, String name, String image, String status) {
+    private final DockerClient dockerClient;
+
+    public Dc() {
+        this(new DefaultDockerClient());
+    }
+
+    public Dc(DockerClient dockerClient) {
+        this.dockerClient = dockerClient;
     }
 
     @Override
@@ -38,8 +43,11 @@ public class Dc extends Command {
             return;
         }
 
-        List<ContainerInfo> containers = fetchContainers();
-        if (containers == null) {
+        List<DockerClient.ContainerInfo> containers;
+        try {
+            containers = dockerClient.fetchContainers();
+        } catch (IOException ex) {
+            stdErr.println("dc: " + ex.getMessage());
             return;
         }
         if (containers.isEmpty()) {
@@ -50,39 +58,8 @@ public class Dc extends Command {
         runTui(terminal, containers);
     }
 
-    private List<ContainerInfo> fetchContainers() throws IOException, InterruptedException {
-        ProcessBuilder pb = new ProcessBuilder(
-                "docker", "ps", "--format", "{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}"
-        );
-        pb.redirectErrorStream(false);
-        Process process = pb.start();
-
-        List<ContainerInfo> containers = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(process.getInputStream(), StandardCharsets.UTF_8))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split("\t", 4);
-                if (parts.length == 4) {
-                    containers.add(new ContainerInfo(parts[0], parts[1], parts[2], parts[3]));
-                }
-            }
-        }
-
-        String errorOutput = new String(
-                process.getErrorStream().readAllBytes(), StandardCharsets.UTF_8
-        ).trim();
-        int exitCode = process.waitFor();
-
-        if (exitCode != 0) {
-            stdErr.println("dc: " + (errorOutput.isEmpty() ? "docker command failed" : errorOutput));
-            return null;
-        }
-        return containers;
-    }
-
     @SuppressWarnings("checkstyle:CyclomaticComplexity")
-    private void runTui(Terminal terminal, List<ContainerInfo> containers)
+    private void runTui(Terminal terminal, List<DockerClient.ContainerInfo> containers)
             throws IOException, InterruptedException {
         int selectedRow = 0;
         int selectedCol = 0;
@@ -141,7 +118,7 @@ public class Dc extends Command {
         }
     }
 
-    private void drawScreen(Terminal terminal, List<ContainerInfo> containers,
+    private void drawScreen(Terminal terminal, List<DockerClient.ContainerInfo> containers,
                             int selectedRow, int selectedCol) {
         StringBuilder sb = new StringBuilder();
         sb.append(CLEAR_SCREEN);
@@ -153,7 +130,7 @@ public class Dc extends Command {
         sb.append("ACTIONS\n");
 
         for (int ii = 0; ii < containers.size(); ii++) {
-            ContainerInfo ci = containers.get(ii);
+            DockerClient.ContainerInfo ci = containers.get(ii);
             boolean isSelected = ii == selectedRow;
 
             sb.append(isSelected ? "> " : "  ");
@@ -181,15 +158,13 @@ public class Dc extends Command {
         terminal.writer().flush();
     }
 
-    private void executeLogs(Terminal terminal, ContainerInfo container,
+    private void executeLogs(Terminal terminal, DockerClient.ContainerInfo container,
                              Attributes savedAttributes) throws IOException, InterruptedException {
         terminal.writer().print(CURSOR_SHOW + ALT_SCREEN_OFF);
         terminal.writer().flush();
         terminal.setAttributes(savedAttributes);
 
-        ProcessBuilder pb = new ProcessBuilder("docker", "logs", "-f", container.name());
-        pb.inheritIO();
-        Process process = pb.start();
+        Process process = dockerClient.showLogs(container.name());
 
         Terminal.SignalHandler prevHandler = terminal.handle(
                 Terminal.Signal.INT, sig -> process.destroy()
@@ -201,27 +176,27 @@ public class Dc extends Command {
             terminal.handle(Terminal.Signal.INT, prevHandler);
         }
 
-        Attributes newSaved = terminal.enterRawMode();
+        terminal.enterRawMode();
         terminal.writer().print(ALT_SCREEN_ON + CURSOR_HIDE);
         terminal.writer().flush();
     }
 
-    private List<ContainerInfo> executeStop(Terminal terminal, List<ContainerInfo> containers,
-                                            int selectedRow, Attributes savedAttributes)
+    private List<DockerClient.ContainerInfo> executeStop(
+            Terminal terminal, List<DockerClient.ContainerInfo> containers,
+            int selectedRow, Attributes savedAttributes)
             throws IOException, InterruptedException {
-        ContainerInfo container = containers.get(selectedRow);
+        DockerClient.ContainerInfo container = containers.get(selectedRow);
 
         terminal.writer().print(CLEAR_SCREEN + "Stopping " + container.name() + "...");
         terminal.writer().flush();
 
-        ProcessBuilder pb = new ProcessBuilder("docker", "stop", container.name());
-        pb.redirectErrorStream(true);
-        Process process = pb.start();
-        process.getInputStream().readAllBytes();
-        process.waitFor();
+        dockerClient.stopContainer(container.name());
 
-        List<ContainerInfo> refreshed = fetchContainers();
-        if (refreshed == null) {
+        List<DockerClient.ContainerInfo> refreshed;
+        try {
+            refreshed = dockerClient.fetchContainers();
+        } catch (IOException ex) {
+            stdErr.println("dc: " + ex.getMessage());
             return null;
         }
         if (refreshed.isEmpty()) {
