@@ -1,5 +1,6 @@
 package com.github.lowkkid.jsh.command.utils;
 
+import com.github.lowkkid.jsh.command.Alias;
 import com.github.lowkkid.jsh.command.Cd;
 import com.github.lowkkid.jsh.command.Command;
 import com.github.lowkkid.jsh.command.Dc;
@@ -10,6 +11,7 @@ import com.github.lowkkid.jsh.command.ExternalCommand;
 import com.github.lowkkid.jsh.command.History;
 import com.github.lowkkid.jsh.command.Pwd;
 import com.github.lowkkid.jsh.command.Type;
+import com.github.lowkkid.jsh.command.Unalias;
 import com.github.lowkkid.jsh.command.Unset;
 import com.github.lowkkid.jsh.utils.FileUtils;
 import java.io.File;
@@ -203,6 +205,8 @@ public class CommandRegistry {
         registerBuiltIn("set", new com.github.lowkkid.jsh.command.Set());
         registerBuiltIn("dc", new Dc());
         registerBuiltIn("unset", new Unset());
+        registerBuiltIn("alias", new Alias());
+        registerBuiltIn("unalias", new Unalias());
     }
 
     private void registerBuiltIn(String name, Command command) {

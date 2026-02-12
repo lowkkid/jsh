@@ -1,7 +1,9 @@
 package com.github.lowkkid.jsh.parser;
 
+import com.github.lowkkid.jsh.config.env.AliasStorage;
 import com.github.lowkkid.jsh.config.env.EnvStorage;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -31,7 +33,7 @@ public class InputParser {
     }
 
     public List<CommandAndArgs> getCommandAndArgs(String userInput) {
-        input = userInput.trim();
+        input = expandAliases(userInput.trim());
         index = 0;
         reset();
         List<CommandAndArgs> commandsAndArgs = new ArrayList<>();
@@ -219,6 +221,34 @@ public class InputParser {
         isWithinDoubleQuotes = false;
         command = "";
         arguments = new ArrayList<>();
+    }
+
+    private String expandAliases(String rawInput) {
+        Set<String> expanded = new HashSet<>();
+        String result = rawInput;
+
+        while (true) {
+            String firstWord = extractFirstWord(result);
+            if (firstWord.isEmpty() || expanded.contains(firstWord)) {
+                break;
+            }
+            String aliasValue = AliasStorage.get(firstWord);
+            if (aliasValue == null) {
+                break;
+            }
+            expanded.add(firstWord);
+            String rest = result.substring(firstWord.length());
+            result = aliasValue + rest;
+        }
+        return result;
+    }
+
+    private String extractFirstWord(String text) {
+        int i = 0;
+        while (i < text.length() && text.charAt(i) != ' ') {
+            i++;
+        }
+        return text.substring(0, i);
     }
 
     private static class InputParserHolder {
