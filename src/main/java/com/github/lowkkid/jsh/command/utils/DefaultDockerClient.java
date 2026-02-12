@@ -1,5 +1,6 @@
 package com.github.lowkkid.jsh.command.utils;
 
+import com.github.lowkkid.jsh.executor.ProcessBuilderFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,7 +12,7 @@ public class DefaultDockerClient implements DockerClient {
 
     @Override
     public List<ContainerInfo> fetchContainers() throws IOException, InterruptedException {
-        ProcessBuilder pb = new ProcessBuilder(
+        ProcessBuilder pb = ProcessBuilderFactory.create(
                 "docker", "ps", "--format", "{{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}"
         );
         pb.redirectErrorStream(false);
@@ -42,14 +43,14 @@ public class DefaultDockerClient implements DockerClient {
 
     @Override
     public Process showLogs(String containerName) throws IOException {
-        ProcessBuilder pb = new ProcessBuilder("docker", "logs", "-f", containerName);
+        ProcessBuilder pb = ProcessBuilderFactory.create("docker", "logs", "-f", containerName);
         pb.inheritIO();
         return pb.start();
     }
 
     @Override
     public int stopContainer(String containerName) throws IOException, InterruptedException {
-        ProcessBuilder pb = new ProcessBuilder("docker", "stop", containerName);
+        ProcessBuilder pb = ProcessBuilderFactory.create("docker", "stop", containerName);
         pb.redirectErrorStream(true);
         Process process = pb.start();
         process.getInputStream().readAllBytes();

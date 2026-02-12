@@ -1,5 +1,6 @@
 package com.github.lowkkid.jsh.parser;
 
+import com.github.lowkkid.jsh.config.env.EnvStorage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -92,6 +93,7 @@ public class InputParser {
                 case '\\' -> handleBackslash();
                 case '\'' -> handleSingleQuote();
                 case '"' -> handleDoubleQuote();
+                case '$' -> handleDollar();
                 case ' ' -> handleSpace();
                 default -> sb.append(currentChar);
             }
@@ -171,6 +173,29 @@ public class InputParser {
         }
 
         isWithinSingleQuotes = !isWithinSingleQuotes;
+    }
+
+    private void handleDollar() {
+        if (isWithinSingleQuotes) {
+            sb.append('$');
+            return;
+        }
+        var varName = new StringBuilder();
+        while (index < input.length() && isVarChar(input.charAt(index))) {
+            varName.append(input.charAt(index++));
+        }
+        if (varName.isEmpty()) {
+            sb.append('$');
+            return;
+        }
+        String value = EnvStorage.get(varName.toString());
+        if (value != null) {
+            sb.append(value);
+        }
+    }
+
+    private boolean isVarChar(char c) {
+        return Character.isLetterOrDigit(c) || c == '_';
     }
 
     private boolean isWithinQuotes() {

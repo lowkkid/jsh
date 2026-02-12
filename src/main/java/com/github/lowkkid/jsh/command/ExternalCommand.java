@@ -1,6 +1,6 @@
 package com.github.lowkkid.jsh.command;
 
-import com.github.lowkkid.jsh.Main;
+import com.github.lowkkid.jsh.executor.ProcessBuilderFactory;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -17,9 +17,8 @@ public class ExternalCommand extends Command {
 
     @Override
     public void executeWithException(List<String> args) throws Exception {
-        ProcessBuilder pb = new ProcessBuilder(
-                Stream.concat(Stream.of(commandName), args.stream()).toList())
-                .directory(Main.currentDir.toFile());
+        ProcessBuilder pb = ProcessBuilderFactory.create(
+                Stream.concat(Stream.of(commandName), args.stream()).toList());
         if (isRedirected()) {
             pb.redirectErrorStream(false);
             Process process = pb.start();

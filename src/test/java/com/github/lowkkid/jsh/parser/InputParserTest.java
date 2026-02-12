@@ -419,7 +419,8 @@ class InputParserTest {
             List<CommandAndArgs> result = parser.getCommandAndArgs("echo \"$HOME\" '$PATH'");
 
             assertEquals(1, result.size());
-            assertEquals(List.of("$HOME", "$PATH"), result.getFirst().arguments());
+            // $HOME in double quotes is expanded, $PATH in single quotes stays literal
+            assertEquals(List.of(System.getenv("HOME"), "$PATH"), result.getFirst().arguments());
         }
 
         @Test

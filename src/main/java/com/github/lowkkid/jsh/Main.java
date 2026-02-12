@@ -1,7 +1,7 @@
 package com.github.lowkkid.jsh;
 
 import static com.github.lowkkid.jsh.command.utils.HistoryUtils.configureHistory;
-import static com.github.lowkkid.jsh.config.EnvConfigReader.HOME;
+import static com.github.lowkkid.jsh.config.env.EnvConfigReader.HOME;
 
 import com.github.lowkkid.jsh.command.utils.CommandRegistry;
 import com.github.lowkkid.jsh.command.utils.HistoryUtils;

@@ -2,10 +2,11 @@ package com.github.lowkkid.jsh.command;
 
 import static com.github.lowkkid.jsh.command.utils.HistoryUtils.HISTORY;
 import static com.github.lowkkid.jsh.command.utils.HistoryUtils.initialHistorySize;
-import static com.github.lowkkid.jsh.config.EnvConfigReader.FILE_HISTORY_MAX_ENTRIES;
-import static com.github.lowkkid.jsh.config.EnvConfigReader.IN_MEMORY_HISTORY_MAX_ENTRIES;
+import static com.github.lowkkid.jsh.config.env.EnvConfigReader.FILE_HISTORY_MAX_ENTRIES;
+import static com.github.lowkkid.jsh.config.env.EnvConfigReader.IN_MEMORY_HISTORY_MAX_ENTRIES;
 import static com.github.lowkkid.jsh.utils.StringUtils.isInteger;
 
+import com.github.lowkkid.jsh.config.env.EnvConfigReader;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -31,7 +32,7 @@ import java.util.List;
  * </ul>
  *
  * @see com.github.lowkkid.jsh.command.utils.HistoryUtils
- * @see com.github.lowkkid.jsh.config.EnvConfigReader
+ * @see EnvConfigReader
  */
 public class History extends Command {
 

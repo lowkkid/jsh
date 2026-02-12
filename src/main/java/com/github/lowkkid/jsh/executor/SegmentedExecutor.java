@@ -1,6 +1,5 @@
 package com.github.lowkkid.jsh.executor;
 
-import com.github.lowkkid.jsh.Main;
 import com.github.lowkkid.jsh.command.Command;
 import com.github.lowkkid.jsh.command.utils.CommandRegistry;
 import com.github.lowkkid.jsh.executor.PipelineSegment.BuiltInSegment;
@@ -232,8 +231,7 @@ public class SegmentedExecutor implements CommandExecutor {
         var command = cmdArgs.command();
         var arguments = cmdArgs.arguments();
 
-        return new ProcessBuilder(
-                Stream.concat(Stream.of(command), arguments.stream()).toList())
-                .directory(Main.currentDir.toFile());
+        return ProcessBuilderFactory.create(
+                Stream.concat(Stream.of(command), arguments.stream()).toList());
     }
 }

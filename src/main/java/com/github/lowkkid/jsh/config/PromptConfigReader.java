@@ -1,6 +1,6 @@
 package com.github.lowkkid.jsh.config;
 
-import static com.github.lowkkid.jsh.config.EnvConfigReader.UI_CONFIG_FILE;
+import static com.github.lowkkid.jsh.config.env.EnvConfigReader.UI_CONFIG_FILE;
 import static com.github.lowkkid.jsh.logger.LogMessages.UI_CONFIG_FILE_DOES_NOT_EXIST;
 import static com.github.lowkkid.jsh.logger.LogMessages.UI_CONFIG_READ_ERROR;
 

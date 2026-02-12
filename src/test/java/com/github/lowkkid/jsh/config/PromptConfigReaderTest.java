@@ -1,6 +1,6 @@
 package com.github.lowkkid.jsh.config;
 
-import static com.github.lowkkid.jsh.config.EnvConfigReader.UI_CONFIG_FILE;
+import static com.github.lowkkid.jsh.config.env.EnvConfigReader.UI_CONFIG_FILE;
 import static com.github.lowkkid.jsh.config.SeparatorStyle.TRIANGLE;
 import static com.github.lowkkid.jsh.data.MockData.MOCK_PROMPT_CONFIG;
 import static org.junit.jupiter.api.Assertions.assertEquals;

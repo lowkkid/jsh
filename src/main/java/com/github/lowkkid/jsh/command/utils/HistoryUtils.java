@@ -1,9 +1,9 @@
 package com.github.lowkkid.jsh.command.utils;
 
-import static com.github.lowkkid.jsh.config.EnvConfigReader.FILE_HISTORY_MAX_ENTRIES;
-import static com.github.lowkkid.jsh.config.EnvConfigReader.HISTORY_FILE;
-import static com.github.lowkkid.jsh.config.EnvConfigReader.INCREMENTAL_APPEND_HISTORY;
-import static com.github.lowkkid.jsh.config.EnvConfigReader.IN_MEMORY_HISTORY_MAX_ENTRIES;
+import static com.github.lowkkid.jsh.config.env.EnvConfigReader.FILE_HISTORY_MAX_ENTRIES;
+import static com.github.lowkkid.jsh.config.env.EnvConfigReader.HISTORY_FILE;
+import static com.github.lowkkid.jsh.config.env.EnvConfigReader.INCREMENTAL_APPEND_HISTORY;
+import static com.github.lowkkid.jsh.config.env.EnvConfigReader.IN_MEMORY_HISTORY_MAX_ENTRIES;
 
 import org.jline.reader.History;
 import org.jline.reader.LineReader;

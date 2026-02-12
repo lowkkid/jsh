@@ -1,6 +1,6 @@
 package com.github.lowkkid.jsh.logger;
 
-import static com.github.lowkkid.jsh.config.EnvConfigReader.LOGS_ENABLED;
+import static com.github.lowkkid.jsh.config.env.EnvConfigReader.LOGS_ENABLED;
 
 public final class Logger {
 

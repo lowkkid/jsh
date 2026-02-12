@@ -1,6 +1,6 @@
 package com.github.lowkkid.jsh.ui;
 
-import static com.github.lowkkid.jsh.config.EnvConfigReader.USERNAME;
+import static com.github.lowkkid.jsh.config.env.EnvConfigReader.USERNAME;
 
 import com.github.lowkkid.jsh.config.PromptConfig;
 import com.github.lowkkid.jsh.config.PromptConfigReader;

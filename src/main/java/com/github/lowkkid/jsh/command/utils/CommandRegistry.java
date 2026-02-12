@@ -5,10 +5,12 @@ import com.github.lowkkid.jsh.command.Command;
 import com.github.lowkkid.jsh.command.Dc;
 import com.github.lowkkid.jsh.command.Echo;
 import com.github.lowkkid.jsh.command.Exit;
+import com.github.lowkkid.jsh.command.Export;
 import com.github.lowkkid.jsh.command.ExternalCommand;
 import com.github.lowkkid.jsh.command.History;
 import com.github.lowkkid.jsh.command.Pwd;
 import com.github.lowkkid.jsh.command.Type;
+import com.github.lowkkid.jsh.command.Unset;
 import com.github.lowkkid.jsh.utils.FileUtils;
 import java.io.File;
 import java.io.IOException;
@@ -197,7 +199,10 @@ public class CommandRegistry {
         registerBuiltIn("pwd", new Pwd());
         registerBuiltIn("type", new Type(this));
         registerBuiltIn("history", new History());
+        registerBuiltIn("export", new Export());
+        registerBuiltIn("set", new com.github.lowkkid.jsh.command.Set());
         registerBuiltIn("dc", new Dc());
+        registerBuiltIn("unset", new Unset());
     }
 
     private void registerBuiltIn(String name, Command command) {

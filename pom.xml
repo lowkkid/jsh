@@ -22,6 +22,7 @@
         <sonar.organization>lowkkid</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.projectKey>lowkkid_jsh</sonar.projectKey>
+        <sonar.coverage.exclusions>**/Main.java,**/parser/CommandAndArgs.java,**/parser/RedirectOptions.java,**/config/StyleConfig.java,**/config/PromptConfig.java,**/config/SeparatorStyle.java</sonar.coverage.exclusions>
     </properties>
 
     <dependencies>
@@ -120,6 +121,7 @@
                                 <exclude>com/github/lowkkid/jsh/config/StyleConfig.class</exclude>
                                 <exclude>com/github/lowkkid/jsh/config/PromptConfig.class</exclude>
                                 <exclude>com/github/lowkkid/jsh/config/SeparatorStyle.class</exclude>
+                                <exclude>com/github/lowkkid/jsh/Main.class</exclude>
                             </excludes>
                         </configuration>
                     </execution>
