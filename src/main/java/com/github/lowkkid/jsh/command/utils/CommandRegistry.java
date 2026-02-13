@@ -191,6 +191,11 @@ public class CommandRegistry {
         executableCommands.put(name, command);
     }
 
+
+    public int getBuiltInCommandCount() {
+        return builtInCommands.size();
+    }
+
     /**
      * Registers all built-in commands manually.
      */
@@ -207,6 +212,7 @@ public class CommandRegistry {
         registerBuiltIn("unset", new Unset());
         registerBuiltIn("alias", new Alias());
         registerBuiltIn("unalias", new Unalias());
+        registerBuiltIn("jsh", new com.github.lowkkid.jsh.command.Jsh());
     }
 
     private void registerBuiltIn(String name, Command command) {
